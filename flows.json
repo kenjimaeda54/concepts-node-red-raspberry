@@ -1,1 +1,74 @@
-[]
+[
+    {
+        "id": "9ff92e94e1d6d4cb",
+        "type": "tab",
+        "label": "Flasher",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "87aa28b1763b36eb",
+        "type": "inject",
+        "z": "9ff92e94e1d6d4cb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "0.5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 120,
+        "wires": [
+            [
+                "d4803bb9eda5459d"
+            ]
+        ]
+    },
+    {
+        "id": "d4803bb9eda5459d",
+        "type": "function",
+        "z": "9ff92e94e1d6d4cb",
+        "name": "function 1",
+        "func": "msg.payload = flow.get(\"led\")||false\nmsg.payload = !msg.payload\nflow.set(\"led\",msg.payload)\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 120,
+        "wires": [
+            [
+                "ec1fa7a2600c7e64"
+            ]
+        ]
+    },
+    {
+        "id": "ec1fa7a2600c7e64",
+        "type": "rpi-gpio out",
+        "z": "9ff92e94e1d6d4cb",
+        "name": "",
+        "pin": "18",
+        "set": false,
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 600,
+        "y": 120,
+        "wires": []
+    }
+]
