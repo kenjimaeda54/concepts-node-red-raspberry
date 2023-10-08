@@ -3,6 +3,14 @@
         "id": "9ff92e94e1d6d4cb",
         "type": "tab",
         "label": "Flasher",
+        "disabled": true,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "74792be3bc746e68",
+        "type": "tab",
+        "label": "Lights up and turns off a few seconds",
         "disabled": false,
         "info": "",
         "env": []
@@ -69,6 +77,103 @@
         "bcm": true,
         "x": 600,
         "y": 120,
+        "wires": []
+    },
+    {
+        "id": "e3903b7e3395a275",
+        "type": "inject",
+        "z": "74792be3bc746e68",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 130,
+        "y": 140,
+        "wires": [
+            [
+                "febfec36abbdc068",
+                "20cd88a63a828edd"
+            ]
+        ]
+    },
+    {
+        "id": "febfec36abbdc068",
+        "type": "delay",
+        "z": "74792be3bc746e68",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 340,
+        "y": 60,
+        "wires": [
+            [
+                "50feb5943d35664d"
+            ]
+        ]
+    },
+    {
+        "id": "50feb5943d35664d",
+        "type": "change",
+        "z": "74792be3bc746e68",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 520,
+        "y": 60,
+        "wires": [
+            [
+                "20cd88a63a828edd"
+            ]
+        ]
+    },
+    {
+        "id": "20cd88a63a828edd",
+        "type": "rpi-gpio out",
+        "z": "74792be3bc746e68",
+        "name": "",
+        "pin": "18",
+        "set": true,
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 720,
+        "y": 140,
         "wires": []
     }
 ]
