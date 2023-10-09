@@ -32,6 +32,14 @@
         "env": []
     },
     {
+        "id": "3457201d50f71274",
+        "type": "tab",
+        "label": "http turn on the lamp",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "87aa28b1763b36eb",
         "type": "inject",
         "z": "9ff92e94e1d6d4cb",
@@ -389,5 +397,88 @@
                 "5bf6675a03637720"
             ]
         ]
+    },
+    {
+        "id": "2ca0881ba88a7860",
+        "type": "http in",
+        "z": "3457201d50f71274",
+        "name": "",
+        "url": "/light/:stats",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 220,
+        "wires": [
+            [
+                "3404d6a8635af5de"
+            ]
+        ]
+    },
+    {
+        "id": "714f0b2663d97328",
+        "type": "http response",
+        "z": "3457201d50f71274",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 850,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "3404d6a8635af5de",
+        "type": "function",
+        "z": "3457201d50f71274",
+        "name": "function 2",
+        "func": "\nlet params = msg.req.params.stats\n\nif(+params === 0 || +params === 1) { \n    msg.topic =  \"Success\"\n    msg.payload = +params\n    return msg\n}\n\nmsg.topic = \"Must be between 0 and 1\"\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 220,
+        "wires": [
+            [
+                "d6d29168ce308261",
+                "252ae9c32a23d18b"
+            ]
+        ]
+    },
+    {
+        "id": "d6d29168ce308261",
+        "type": "template",
+        "z": "3457201d50f71274",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{ \n    \"stats\":  \"{{topic}}\"\n}",
+        "output": "json",
+        "x": 600,
+        "y": 120,
+        "wires": [
+            [
+                "714f0b2663d97328"
+            ]
+        ]
+    },
+    {
+        "id": "252ae9c32a23d18b",
+        "type": "rpi-gpio out",
+        "z": "3457201d50f71274",
+        "name": "",
+        "pin": "18",
+        "set": true,
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 720,
+        "y": 220,
+        "wires": []
     }
 ]
