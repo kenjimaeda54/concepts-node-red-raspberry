@@ -16,6 +16,14 @@
         "env": []
     },
     {
+        "id": "0fc4f508f4e5ddc0",
+        "type": "tab",
+        "label": "Press and after a few seconds it turns on",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "87aa28b1763b36eb",
         "type": "inject",
         "z": "9ff92e94e1d6d4cb",
@@ -175,5 +183,130 @@
         "x": 720,
         "y": 140,
         "wires": []
+    },
+    {
+        "id": "eebc7b3cbb3a93d4",
+        "type": "inject",
+        "z": "0fc4f508f4e5ddc0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 120,
+        "y": 180,
+        "wires": [
+            [
+                "f9e964d93498ab5b"
+            ]
+        ]
+    },
+    {
+        "id": "f9e964d93498ab5b",
+        "type": "delay",
+        "z": "0fc4f508f4e5ddc0",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 340,
+        "y": 100,
+        "wires": [
+            [
+                "46928889b2b6b7ba"
+            ]
+        ]
+    },
+    {
+        "id": "46928889b2b6b7ba",
+        "type": "change",
+        "z": "0fc4f508f4e5ddc0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 540,
+        "y": 100,
+        "wires": [
+            [
+                "4539d5343b5c82ba"
+            ]
+        ]
+    },
+    {
+        "id": "4539d5343b5c82ba",
+        "type": "rpi-gpio out",
+        "z": "0fc4f508f4e5ddc0",
+        "name": "",
+        "pin": "18",
+        "set": true,
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 780,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "a88cbecbe5f98231",
+        "type": "inject",
+        "z": "0fc4f508f4e5ddc0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 130,
+        "y": 260,
+        "wires": [
+            [
+                "4539d5343b5c82ba"
+            ]
+        ]
     }
 ]
