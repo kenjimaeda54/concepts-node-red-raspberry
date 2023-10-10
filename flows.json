@@ -11,7 +11,7 @@
         "id": "74792be3bc746e68",
         "type": "tab",
         "label": "Lights up and turns off a few seconds",
-        "disabled": false,
+        "disabled": true,
         "info": "",
         "env": []
     },
@@ -19,7 +19,7 @@
         "id": "0fc4f508f4e5ddc0",
         "type": "tab",
         "label": "Press and after a few seconds it turns on",
-        "disabled": false,
+        "disabled": true,
         "info": "",
         "env": []
     },
@@ -27,14 +27,22 @@
         "id": "2f7256a828f5a446",
         "type": "tab",
         "label": "Toggle",
-        "disabled": false,
+        "disabled": true,
         "info": "",
         "env": []
     },
     {
         "id": "3457201d50f71274",
         "type": "tab",
-        "label": "http turn on the lamp",
+        "label": "http turn on and off the lamp",
+        "disabled": true,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c4162a0c1f169f4e",
+        "type": "tab",
+        "label": "Http complex turn on led after while",
         "disabled": false,
         "info": "",
         "env": []
@@ -480,5 +488,108 @@
         "x": 720,
         "y": 220,
         "wires": []
+    },
+    {
+        "id": "b4c1133bdbcd7546",
+        "type": "http in",
+        "z": "c4162a0c1f169f4e",
+        "name": "api",
+        "url": "/light",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 120,
+        "wires": [
+            [
+                "7083f89f4310e30a"
+            ]
+        ]
+    },
+    {
+        "id": "fec566315fd0c391",
+        "type": "http response",
+        "z": "c4162a0c1f169f4e",
+        "name": "response",
+        "statusCode": "",
+        "headers": {},
+        "x": 1060,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "2e863f460c6aa6e3",
+        "type": "template",
+        "z": "c4162a0c1f169f4e",
+        "name": "feedbackApi",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{ \n    \"stats\":  \"{{feedbackApi}}\"\n}",
+        "output": "json",
+        "x": 790,
+        "y": 120,
+        "wires": [
+            [
+                "fec566315fd0c391"
+            ]
+        ]
+    },
+    {
+        "id": "7083f89f4310e30a",
+        "type": "function",
+        "z": "c4162a0c1f169f4e",
+        "name": "handleProcessApi",
+        "func": "let stats = msg.payload.stats \nlet timeSeconds = msg.payload.time\n\nif(isNaN(stats) || typeof stats != 'number' || isNaN(timeSeconds) || typeof timeSeconds != 'number' ) { \n    msg.feedbackApi = \"Stats or time need be type number\"\n    return msg\n}\n\nif(stats > 1 || stats < 0) { \n    msg.feedbackApi = \"Time needs to be between 0 and 1\"\n    return msg\n}\n\nlet time = timeSeconds * 1000\n\nmsg.feedbackApi = \"Success\"\nmsg.delay = time\nmsg.payload = stats\n \n\n \n \n \n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 120,
+        "wires": [
+            [
+                "2e863f460c6aa6e3",
+                "022e8be3c1086e0a"
+            ]
+        ]
+    },
+    {
+        "id": "ea57b29c300b01a0",
+        "type": "rpi-gpio out",
+        "z": "c4162a0c1f169f4e",
+        "name": "raspberryOut",
+        "pin": "18",
+        "set": true,
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 790,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "022e8be3c1086e0a",
+        "type": "function",
+        "z": "c4162a0c1f169f4e",
+        "name": "handleDelayPaylod",
+        "func": "\nfunction clear() {\n   clearInterval(interval)\n}\n\nlet interval = setInterval(function(){\n  msg.payload = !msg.payload\n  node.send(msg)\n  clear()\n  node.done()\n},msg.delay)\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 240,
+        "wires": [
+            [
+                "ea57b29c300b01a0"
+            ]
+        ]
     }
 ]
